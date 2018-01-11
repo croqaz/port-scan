@@ -1,0 +1,53 @@
+{
+  "authors": [
+    "Cristi Constantin <cristi.constantin@live.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/croqaz/port-scan/issues"
+  },
+  "dependencies": {
+    "node-fetch": "1.x"
+  },
+  "description": "Node.js simple port scan",
+  "devDependencies": {
+    "@commitlint/cli": "6.x",
+    "@commitlint/config-conventional": "5.x",
+    "ava": "latest",
+    "husky": "0.x",
+    "prettier": "1.9.2",
+    "standard": "10.x"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "ping",
+    "socket",
+    "scan",
+    "port-scan"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "port-scan",
+  "overrides": [
+    {
+      "files": "lib/*.js",
+      "options": {
+        "printWidth": 120,
+        "semi": false,
+        "singleQuote": true
+      }
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/croqaz/port-scan.git"
+  },
+  "scripts": {
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "format": "npx prettier --write index.js && npx standard --fix index.js",
+    "lint": "npx standard index.js",
+    "test": "npx ava"
+  },
+  "version": "0.0.1"
+}
