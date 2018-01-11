@@ -27,6 +27,11 @@ Simply install with npm:
 > $ npm install @croqaz/port-scan
 
 
+## Similar libraries
+
+* https://github.com/baalexander/node-portscanner
+
+
 -----
 
 ## License

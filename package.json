@@ -11,9 +11,7 @@
   "bugs": {
     "url": "https://github.com/croqaz/port-scan/issues"
   },
-  "dependencies": {
-    "node-fetch": "1.x"
-  },
+  "dependencies": {},
   "description": "Node.js simple port scan",
   "devDependencies": {
     "@commitlint/cli": "6.x",
