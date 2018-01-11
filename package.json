@@ -2,6 +2,12 @@
   "authors": [
     "Cristi Constantin <cristi.constantin@live.com>"
   ],
+  "ava": {
+    "concurrency": 3,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "powerAssert": false
+  },
   "bugs": {
     "url": "https://github.com/croqaz/port-scan/issues"
   },
