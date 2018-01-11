@@ -1,6 +1,14 @@
 const net = require('net')
 
-const DEFAULT_TIMEOUT = 2500
+var globalTimeout = 2500
+
+function setTimeout (t) {
+  /*
+   * Set the default timeout for the library.
+   * Can be overwritten by each function.
+   */
+  globalTimeout = t
+}
 
 function validateHost (host) {
   if (!host) {
@@ -19,7 +27,7 @@ async function portCheck (host, options = {}) {
    * If the port is open, returns the connection time, in miliseconds.
    * If the host doesn't exist, or the port is closed, returns -1.
    */
-  const config = { port: 80, timeout: DEFAULT_TIMEOUT }
+  const config = { port: 80, timeout: globalTimeout }
 
   if (typeof host === 'object') {
     options = { ...config, ...host }
@@ -74,7 +82,7 @@ async function portScan (host, options = {}) {
    * If the port is open, returns the connection time, in miliseconds.
    * If the host doesn't exist, or the port is closed, returns -1.
    */
-  const config = { startPort: 80, endPort: 443, timeout: DEFAULT_TIMEOUT }
+  const config = { startPort: 80, endPort: 443, timeout: globalTimeout }
 
   if (typeof host === 'object') {
     options = { ...config, ...host }
@@ -110,6 +118,7 @@ async function portScan (host, options = {}) {
 }
 
 module.exports = {
+  setTimeout,
   portCheck,
   portScan
 }
