@@ -34,7 +34,7 @@
   ],
   "license": "MIT",
   "main": "index.js",
-  "name": "port-scan",
+  "name": "@croqaz/port-scan",
   "overrides": [
     {
       "files": "lib/*.js",

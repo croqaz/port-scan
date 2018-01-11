@@ -31,7 +31,6 @@ async function portCheck (host, options = {}) {
 
   if (typeof host === 'object') {
     options = { ...config, ...host }
-    host = options.host
   } else {
     options = { ...config, ...options }
   }
@@ -59,13 +58,11 @@ async function portCheck (host, options = {}) {
     })
 
     c.on('timeout', () => {
-      // console.error('Conn timeout', options.timeout)
       c.destroy()
       resolve(-1)
     })
 
     c.on('error', () => {
-      // console.error('Conn error', err.message)
       c.destroy()
       resolve(-1)
     })
@@ -86,7 +83,6 @@ async function portScan (host, options = {}) {
 
   if (typeof host === 'object') {
     options = { ...config, ...host }
-    host = options.host
   } else {
     options = { ...config, ...options }
   }
@@ -108,7 +104,7 @@ async function portScan (host, options = {}) {
   const openPorts = []
 
   for (let port = options.startPort; port <= options.endPort; port++) {
-    const success = await portCheck({ host, port, timeout: options.timeout })
+    const success = await portCheck({ port, host: options.host, timeout: options.timeout })
     if (success > 0) {
       openPorts.push(port)
     }
