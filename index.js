@@ -75,11 +75,12 @@ async function portScan (host, options = {}) {
   /*
    * Check a range of ports from an IP, or a HOST.
    * The `host` must be an IP, or a HOST (defaults to localhost).
-   * The `startPort` and `endPort` must be a numbers between 1 and 65,535.
+   * (optional) the `startPort` and `endPort` must be a numbers between 1 and 65,535.
+   * (optional) the `ports` must be a a list of numbers between 1 and 65,535.
    * If the port is open, returns the connection time, in miliseconds.
    * If the host doesn't exist, or the port is closed, returns -1.
    */
-  const config = { startPort: 80, endPort: 443, timeout: globalTimeout }
+  const config = { startPort: 0, endPort: 0, ports: [], timeout: globalTimeout }
 
   if (typeof host === 'object') {
     options = { ...config, ...host }
@@ -94,23 +95,41 @@ async function portScan (host, options = {}) {
     throw new Error('host cannot be empty')
   }
 
-  if (options.startPort < 1 || options.startPort > 65535) {
+  if (options.startPort && (options.startPort < 1 || options.startPort > 65535)) {
     throw new Error('startPort option out of range 1...65,535')
   }
-  if (options.endPort < 1 || options.endPort > 65535) {
+  if (options.endPort && (options.endPort < 1 || options.endPort > 65535)) {
     throw new Error('endPort option out of range 1...65,535')
   }
-
-  const openPorts = []
-
-  for (let port = options.startPort; port <= options.endPort; port++) {
-    const success = await portCheck({ port, host: options.host, timeout: options.timeout })
-    if (success > 0) {
-      openPorts.push(port)
+  if (options.ports && options.ports.length) {
+    for (const p of options.ports) {
+      if (p < 1 || p > 65535) {
+        throw new Error('ports[] out of range 1...65,535')
+      }
     }
   }
 
-  return openPorts
+  const openPorts = new Set([])
+
+  if (options.startPort && options.endPort) {
+    for (let port = options.startPort; port <= options.endPort; port++) {
+      const success = await portCheck({ port, host: options.host, timeout: options.timeout })
+      if (success > 0) {
+        openPorts.add(port)
+      }
+    }
+  }
+
+  if (options.ports && options.ports.length) {
+    for (let port of options.ports) {
+      const success = await portCheck({ port, host: options.host, timeout: options.timeout })
+      if (success > 0) {
+        openPorts.add(port)
+      }
+    }
+  }
+
+  return Array.from(openPorts)
 }
 
 module.exports = {
